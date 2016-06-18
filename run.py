@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from sklearn import cross_validation, grid_search, svm
+import alerts
 import camera
 import classifiers
 import features
@@ -24,11 +25,12 @@ def main():
     new_trial_features = features.get_features_for_image(full_trial_file_name)
     labels = classifier.predict(new_trial_features)
     if labels[0] == 0:
-       shutil.move(full_trial_file_name,
-                   os.path.join(NEGATIVE_TRIAL_DIR, new_trial_file_name))
+        shutil.move(full_trial_file_name,
+                    os.path.join(NEGATIVE_TRIAL_DIR, new_trial_file_name))
     else:
-       shutil.move(full_trial_file_name,
-                   os.path.join(POSITIVE_TRIAL_DIR, new_trial_file_name))
+        shutil.move(full_trial_file_name,
+                    os.path.join(POSITIVE_TRIAL_DIR, new_trial_file_name))
+        alerts.trigger_alert()
 
 
 if __name__ == '__main__':
