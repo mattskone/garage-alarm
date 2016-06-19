@@ -2,11 +2,11 @@ import os
 import string
 import random
 import time
-import pycamera
+import picamera
 
 
 def _get_ready_camera():
-    camera = pycamer.PyCamera()
+    camera = picamera.PiCamera()
     camera.brightness = 50
     camera.vflip = True
     camera.hflip = True
