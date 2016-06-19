@@ -1,6 +1,7 @@
 .DS_Store
 *.ipynb
 *.jpg
+*.pkl
 *.swp
 
 # Byte-compiled / optimized / DLL files
