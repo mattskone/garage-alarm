@@ -21,7 +21,7 @@ def _create_file_name():
 
 def take_photo(file_path):
     camera = _get_ready_camera()
-    file_name = '{}.jpg'.format(_create_file_name)
+    file_name = '{}.jpg'.format(_create_file_name())
     full_file_path = os.path.join(file_path, file_name)
     camera.capture(full_file_path)
 
