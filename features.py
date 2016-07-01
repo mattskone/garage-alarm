@@ -8,6 +8,12 @@ logger = logging.getLogger(__name__)
 
 
 def get_features_for_image(file_path):
+    """Extract the features for a specific image.
+
+    :param file_path: path to and name of image file
+    :returns: a 2D numpy array of image features
+    """
+
     # Get grayscale image, normalized to 0.0-1.0 
     raw = Image.open(file_path).convert('L')
     normalized = np.array(raw.getdata()) * (1 / 255.0)
@@ -19,9 +25,8 @@ def get_features(dir_path, file_extension='jpg'):
     """Extract the features for all images in a directory.
 
     :param dir_path: path to the directory where image files can be found
-    :type file_path: str.
-    :param extension: the image files extension
-    :returns: a 2D numpy matrix of image features
+    :param file_extension: the image files extension
+    :returns: a 2D numpy array of image features
     """
 
     logger.info('Getting training sample features')

@@ -20,10 +20,15 @@ def _create_file_name():
 
 
 def take_photo(file_path):
+    """Capture and save a camera image.
+
+    :param file_path: path to the directory where the file should be saved
+    :returns: the name of the new image file
+    """
+
     camera = _get_ready_camera()
     file_name = '{}.jpg'.format(_create_file_name())
-    full_file_path = os.path.join(file_path, file_name)
-    camera.capture(full_file_path)
+    camera.capture(file_name)
 
     return file_name
 
