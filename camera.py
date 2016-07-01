@@ -3,6 +3,7 @@ import string
 import random
 import time
 import picamera
+import config
 
 
 def _get_ready_camera():
@@ -28,7 +29,7 @@ def take_photo(file_path):
 
     camera = _get_ready_camera()
     file_name = '{}.jpg'.format(_create_file_name())
-    camera.capture(file_name)
+    camera.capture(os.path.join(config.NEW_TRIAL_DIR, file_name))
 
     return file_name
 
