@@ -10,4 +10,5 @@ POSITIVE_TRIAL_DIR = 'trials/positive'
 NEGATIVE_TRIAL_DIR = 'trials/negative'
 
 MODEL_FILE_NAME = 'model.pkl'
+MIN_STD_DEV = 20
 
