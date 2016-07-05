@@ -1,3 +1,4 @@
+from fractions import Fraction
 import os
 import random
 import string
@@ -16,24 +17,24 @@ def _is_too_dark(camera):
     return matrix.std() < config.MIN_STD_DEV
 
 
-def _get_low_light_camera():
-    camera = picamera.PiCamera()
+def _set_low_light_camera(camera):
     camera.framerate = Fraction(1, 6)
     camera.shutter_speed = 6000000
     camera.exposure_mode = 'off'
     camera.iso = 800
     time.sleep(10)
 
+    return camera
+
 
 def _get_ready_camera():
     camera = picamera.PiCamera()
-    camera.brightness = 50
     camera.vflip = True
     camera.hflip = True
     time.sleep(2)
 
     if _is_too_dark(camera):
-        return _get_low_light_camera()
+        return _set_low_light_camera(camera)
     else:
         return camera
 
