@@ -1,11 +1,11 @@
 import logging
 import os
+import shutil
 import alerts
 import camera
 import config
 import features
 import models
-import shutil
 
 
 logging.basicConfig(filename=os.path.join(config.INSTALL_DIR, 'app.log'),
@@ -18,9 +18,9 @@ def main():
     model = models.get_trained_model()
     new_trial_dir = os.path.join(config.INSTALL_DIR, config.NEW_TRIAL_DIR)
     new_trial_file_name = camera.take_photo(new_trial_dir)
-    full_trial_file_name = os.path.join(new_trial_dir, new_trial_file_name)
+    trial_full_file_name = os.path.join(new_trial_dir, new_trial_file_name)
     logger.info('Classifying new trial {0}'.format(new_trial_file_name))
-    new_trial_features = features.get_features_for_image(full_trial_file_name)
+    new_trial_features = features.get_features_for_image(trial_full_file_name)
     labels = model.predict(new_trial_features)
     if labels[0] == 0:
         shutil.move(full_trial_file_name,

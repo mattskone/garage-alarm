@@ -8,21 +8,27 @@ import samples
 logger = logging.getLogger(__name__)
 
 
-def get_trained_model():
-    return pickle.load(open(os.path.join(config.INSTALL_DIR,
-                                         config.MODEL_FILE_NAME)))
+def get_trained_model(use_current=True):
+    if use_current:
+        return pickle.load(open(os.path.join(config.INSTALL_DIR,
+                                             config.MODEL_FILE_NAME)))
+    else:
+        return _get_new_trained_model()
 
 
-def train_model():
+def _get_new_trained_model():
     logger.info('Training new model')
     training_samples, training_labels = samples.get_samples(
         os.path.join(config.INSTALL_DIR, config.POSITIVE_SAMPLE_DIR),
         os.path.join(config.INSTALL_DIR, config.NEGATIVE_SAMPLE_DIR))
     model = svm.SVC(kernel='linear')
     model.fit(training_samples, training_labels)
-    with open(os.path.join(config.INSTALL_DIR, config.MODEL_FILE_NAME), 'w') as f:
-        pickle.dump(model, f)
+
+    return model
 
 
 if __name__ == '__main__':
-    train_model()
+    model = get_trained_model(False)
+    with open(os.path.join(config.INSTALL_DIR, config.MODEL_FILE_NAME), 'w') as f:
+        pickle.dump(model, f)
+
