@@ -7,7 +7,7 @@ import features
 logger = logging.getLogger(__name__)
 
 
-def get_samples(pos_samples_dir, neg_samples_dir, reduced=True):
+def get_samples(pos_samples_dir, neg_samples_dir, reduced=False):
     """Produce sample data ready for training a classifier.
 
     :param pos_samples_dir: path to directory containing positive samples

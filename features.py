@@ -21,10 +21,11 @@ def _get_reducer(features, use_current=True):
     """
 
     if use_current:
-        return pickle.load(open(os.path.join(config.INSTALL_DIR,
-                                             config.REDUCER_FILE_NAME)))
+        return joblib.load('models/reducer.pkl')
     else:
-        return _get_new_reducer(features)
+        reducer = _get_new_reducer(features)
+        joblib.dump(reducer, 'models/reducer.pkl')
+        return reducer
 
 
 def _get_new_reducer(features, n_components=100):
@@ -61,9 +62,6 @@ def reduce_features(features, use_current=True):
 
     logger.info('Reducing features')
     reducer = _get_reducer(features, use_current)
-#    with open('reducer.pkl', 'w') as f:
-#        pickle.dump(reducer, f)
-    joblib.dump(reducer, 'models/reducer.pkl', compress=9)
     features = reducer.transform(features)
 
     return features
