@@ -4,6 +4,10 @@ import pickle
 import numpy as np
 from PIL import Image
 from sklearn.decomposition import PCA
+from sklearn.externals import joblib
+
+
+logger = logging.getLogger(__name__)
 
 
 def _get_reducer(features, use_current=True):
@@ -24,6 +28,7 @@ def _get_reducer(features, use_current=True):
 
 
 def _get_new_reducer(features, n_components=100):
+    logger.info('Fitting new reducer')
     pca = PCA(n_components=n_components)
     return pca.fit(features)
 
@@ -54,9 +59,11 @@ def reduce_features(features, use_current=True):
      :returns: a 2d numpy array of features reduced by the reducer function
     """
 
+    logger.info('Reducing features')
     reducer = _get_reducer(features, use_current)
-    with open('reducer.pkl', 'w') as f:
-        pickle.dump(reducer, f)
+#    with open('reducer.pkl', 'w') as f:
+#        pickle.dump(reducer, f)
+    joblib.dump(reducer, 'models/reducer.pkl', compress=9)
     features = reducer.transform(features)
 
     return features
@@ -73,7 +80,7 @@ def get_features_for_dir(dir_path, file_extension='jpg'):
     files = [name for name in os.listdir(dir_path) if name.endswith(file_extension)]
     features = []
     for f in files:
-        features.append(get_features_for_image(os.path.join(dir_path, f)))
+        features.append(get_features_for_image(os.path.join(dir_path, f))[0])
 
     return np.array(features)
 

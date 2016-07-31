@@ -17,11 +17,12 @@ def get_trained_model(use_current=True):
 
 
 def _get_new_trained_model():
-    logger.info('Training new model')
+    print 'Training new model'
     training_samples, training_labels = samples.get_samples(
         os.path.join(config.INSTALL_DIR, config.POSITIVE_SAMPLE_DIR),
         os.path.join(config.INSTALL_DIR, config.NEGATIVE_SAMPLE_DIR))
     model = svm.SVC(kernel='linear')
+    print 'Fitting model'
     model.fit(training_samples, training_labels)
 
     return model
