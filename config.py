@@ -1,6 +1,6 @@
 ALERT_URL = 'https://maker.ifttt.com/trigger/{0}/with/key/{1}'
 ALERT_NAME = 'garage_door_open'
-ALERT_KEY = 'my key here' 
+ALERT_KEY = 'cNF8pvDU87nyOpGjK1rQ8Q' 
 
 INSTALL_DIR = '/home/pi/src/garage-alarm'
 POSITIVE_SAMPLE_DIR = 'samples/positive'
