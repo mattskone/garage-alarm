@@ -1,27 +1,73 @@
 import logging
 import os
+import pickle
 import numpy as np
 from PIL import Image
+from sklearn.decomposition import PCA
+from sklearn.externals import joblib
 
 
 logger = logging.getLogger(__name__)
+
+
+def _get_reducer(features, use_current=True):
+    """Return a dimensionality reducer trained on the input samples
+
+    :param features: a 2d numpy array of features
+    :param n_components: reduce the original number of features to this amount
+    :param use_current: when True, use the existing reducer instead of fitting
+        a new one.  Default True.
+    :returns: an instance of a scikit-learn PCA reducer
+    """
+
+    if use_current:
+        return joblib.load('models/reducer.pkl')
+    else:
+        reducer = _get_new_reducer(features)
+        joblib.dump(reducer, 'models/reducer.pkl')
+        return reducer
+
+
+def _get_new_reducer(features, n_components=100):
+    logger.info('Fitting new reducer')
+    pca = PCA(n_components=n_components)
+    return pca.fit(features)
 
 
 def get_features_for_image(file_path):
     """Extract the features for a specific image.
 
     :param file_path: path to and name of image file
-    :returns: a 2D numpy array of image features
+    :returns: a 2D numpy array of image features of shape (1, num_features)
+
+    The features returned are the greyscale image intensities for each pixel,
+    normalized to 0.0-1.0.
     """
 
-    # Get grayscale image, normalized to 0.0-1.0 
     raw = Image.open(file_path).convert('L')
     normalized = np.array(raw.getdata()) * (1 / 255.0)
+    normalized_2d = normalized.reshape(1, normalized.size)
 
-    return normalized
+    return normalized_2d 
 
 
-def get_features(dir_path, file_extension='jpg'):
+def reduce_features(features, use_current=True):
+    """Apply dimensionality reduction to feature matrix
+
+    :param features: a 2d numpy array of sample features
+    :param use_current: when True, use the existing reducer instead of fitting
+        a new one.  Default True.
+     :returns: a 2d numpy array of features reduced by the reducer function
+    """
+
+    logger.info('Reducing features')
+    reducer = _get_reducer(features, use_current)
+    features = reducer.transform(features)
+
+    return features
+
+
+def get_features_for_dir(dir_path, file_extension='jpg'):
     """Extract the features for all images in a directory.
 
     :param dir_path: path to the directory where image files can be found
@@ -29,12 +75,10 @@ def get_features(dir_path, file_extension='jpg'):
     :returns: a 2D numpy array of image features
     """
 
-    logger.info('Getting training sample features')
     files = [name for name in os.listdir(dir_path) if name.endswith(file_extension)]
     features = []
     for f in files:
-        features.append(get_features_for_image(os.path.join(dir_path, f)))
-    logger.info('Got training sample features')
+        features.append(get_features_for_image(os.path.join(dir_path, f))[0])
 
     return np.array(features)
 
