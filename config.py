@@ -1,6 +1,6 @@
 ALERT_URL = 'https://maker.ifttt.com/trigger/{0}/with/key/{1}'
 ALERT_NAME = 'garage_door_open'
-ALERT_KEY = 'cNF8pvDU87nyOpGjK1rQ8Q' 
+ALERT_KEY = 'your key here'
 
 INSTALL_DIR = '/Users/matt/src/garage-alarm'
 POSITIVE_SAMPLE_DIR = 'samples/positive'
@@ -10,6 +10,6 @@ POSITIVE_TRIAL_DIR = 'trials/positive'
 NEGATIVE_TRIAL_DIR = 'trials/negative'
 
 MODEL_FILE_NAME = 'model.pkl'
-MIN_BRIGHTNESS=50
-MAX_BRIGHTNESS=190
+MIN_BRIGHTNESS=25
+MAX_BRIGHTNESS=200
 
