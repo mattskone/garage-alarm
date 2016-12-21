@@ -10,7 +10,6 @@ POSITIVE_TRIAL_DIR = 'trials/positive'
 NEGATIVE_TRIAL_DIR = 'trials/negative'
 
 MODEL_FILE_NAME = 'model.pkl'
-MIN_STD_DEV = 20
 MIN_BRIGHTNESS=50
 MAX_BRIGHTNESS=190
 
