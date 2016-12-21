@@ -24,13 +24,13 @@ def main():
     new_trial_features = features.get_features_for_image(trial_full_file_name)
     labels = model.predict(new_trial_features)
     if labels[0] == 0:
-        shutil.move(full_trial_file_name,
+        shutil.move(trial_full_file_name,
                     os.path.join(config.INSTALL_DIR,
                                  config.NEGATIVE_TRIAL_DIR,
                                  new_trial_file_name))
         logger.info('Classified negative')
     else:
-        shutil.move(full_trial_file_name,
+        shutil.move(trial_full_file_name,
                     os.path.join(config.INSTALL_DIR,
                                  config.POSITIVE_TRIAL_DIR,
                                  new_trial_file_name))
