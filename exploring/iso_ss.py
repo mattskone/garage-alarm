@@ -1,3 +1,7 @@
+"""
+Utility script for experimenting with different ISO and shutter speeds.
+"""
+
 from fractions import Fraction
 import sys
 import time

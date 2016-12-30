@@ -1,3 +1,10 @@
+"""
+A module to return a trained model.
+
+This module can be invoked manually to train a new model from existing samples.
+$ python ./models.py
+"""
+
 import logging
 import os
 import pickle
@@ -9,6 +16,8 @@ logger = logging.getLogger(__name__)
 
 
 def get_trained_model(use_current=True):
+    """Return a trained classifier."""
+
     if use_current:
         return pickle.load(open(os.path.join(config.INSTALL_DIR,
                                              config.MODEL_FILE_NAME)))

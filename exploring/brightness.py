@@ -1,3 +1,7 @@
+"""
+Utility script to return the brightness of an input image file.
+"""
+
 import sys
 
 from PIL import Image
