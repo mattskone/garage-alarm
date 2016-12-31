@@ -1,4 +1,4 @@
-ALERT_URL = 'https://maker.ifttt.com/trigger/{0}/with/key/{1}'
+ALERT_URL = 'https://maker.ifttt.com/trigger/{event}/with/key/{key}'
 ALERT_NAME = 'garage_door_open'
 ALERT_KEY = 'your key here'
 
