@@ -29,6 +29,9 @@ Here's what the various settings in `config.py` are for.
 - The `ALERT_KEY` is the key provided by the [Maker IFTTT channel](https://internal-api.ifttt.com/maker).
 - `INSTALL_DIR` is the absolute path on your Pi to the project root directory where you cloned this repository.
 - The remaining `_DIR` directories are relative to the `INSTALL_DIR` and should not need to be changed.  They hold the image files created in the process of training and running the app.  After training (see below), these directories can be safely emptied at any time.
+- `MODEL_FILE_NAME` should not need to be changed unless you would like to train multiple models (see Training below).
+- `MIN_` and `MAX_` settings represent bounds on how the app will try to achieve the best brightness of captured images in order to have the best chance of correctly analyzing each image.  If the app is having trouble classifying some images, and you suspect it's becuase some images are turning out too bright or dark, try adjusting `BRIGHTNESS` accordingly.  The acceptible value range is 0-255.  The `SHUTTER_SPEED` values should not exceed the minimum and maximum values specified in the camera documentation.
+- `SHUTTER_SPEED_STEP` specifies how much the shutter speed changes with each trial image as the app tries to find the best camera settings to achieve acceptable brightness.  It should not need to be changed.
 
 ### Training
 
