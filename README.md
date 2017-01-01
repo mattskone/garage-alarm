@@ -34,11 +34,33 @@ Here's what the various settings in `config.py` are for.
 - `SHUTTER_SPEED_STEP` specifies how much the shutter speed changes with each trial image as the app tries to find the best camera settings to achieve acceptable brightness.  It should not need to be changed.
 
 ### Training
+Before this app can alert on an open garage door, it needs to be trained what open and closed garage doors look like.
 
 #### Taking Samples
+Use `samples.py` to capture images that represent positive (garage door open) and negative (garage door closed) examples, as follows:
+
+`$ python ./samples.py --positive`
+
+`$ python ./samples.py --negative`
+
+Sample images will be stored in the corresponding directories specified in the `config.py` file.  Be sure to capture samples with various combinations of objects and brightness in the image.  For a garage door alarm, for example, take samples with a car present and absent, with overhead lights on and off, and during daylight and at night.
+
+How many samples are enough?  That depends on many factors, and may require some trial-and-error.  My garage alarm works well with about two dozen samples each (positive and negative).  More samples will generally lead to better performance, but the size of the resulting `model.pkl` file may become a limiting factor.
 
 #### Training the Model
+After capturing your samples, train your model as follows:
+
+`$ python ./models.py`
+
+Depending on the number of samples, training may take several minutes.  The training process produces a `model.pkl` file (or whatever file name is specified in `config.py`) which the app will use to classify new trial images as either positive or negative.
+
+For those with an interest in machine learning, this app trains a [Support Vector Machine (SVM)](https://en.wikipedia.org/wiki/Support_vector_machine) classifier with a linear kernel function.  If you'd like to experiment with different types of classifiers or classifier parameters, you'll find that code in the `models.py` file.  Refer to the [scikit-learn](http://scikit-learn.org/stable/) documentation for available options. 
+
+### Logging
+The app logs its activities to an `app.log` file in the project root directory.
 
 ### Running on a Schedule
+`cron` is an easy way to run the app on a regular schedule.  For this purpose, I have provided the `setcron.sh` script, but `cron` jobs can be created manually quite easily.
 
 ### License and Contributions
+Use of this code is governed by the MIT license.  This app is a work in progress, and it may fail for any number of reasons, causing your house to catch fire or, worse, your cat to go bald.  I welcome pull requests that improve performance and/or help prevent such disasters.
