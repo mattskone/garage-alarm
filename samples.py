@@ -1,6 +1,12 @@
+import argparse
 import logging
+import os
+
 import numpy as np
 from sklearn.utils import shuffle
+
+import camera
+import config
 import features
 
 
@@ -31,4 +37,35 @@ def get_samples(pos_samples_dir, neg_samples_dir, reduced=False):
     logger.info('Got training samples')
 
     return samples, classes
+
+
+def take_sample(pos_sample):
+    """"Take a new sample for use in training.
+
+    :param pos_sample: when True, store the captured image as a positive sample
+    """
+
+    if pos_sample:
+        sample_dir = os.path.join(config.INSTALL_DIR,
+                                  config.POSITIVE_SAMPLE_DIR)
+    else:
+        sample_dir = os.path.join(config.INSTALL_DIR,
+                                  config.NEGATIVE_SAMPLE_DIR)
+    c = camera.Camera(sample_dir)
+    c.take_photo()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    mutex_group = parser.add_mutually_exclusive_group(required=True)
+    mutex_group.add_argument('--positive',
+                             dest='pos_sample',
+                             action='store_true',
+                             help='Set for positive samples')
+    mutex_group.add_argument('--negative',
+                             dest='pos_sample',
+                             action='store_false',
+                             help='Set for negative samples')
+    args=parser.parse_args()
+    take_sample(args.pos_sample)
 
