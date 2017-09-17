@@ -172,7 +172,7 @@ class Camera(object):
 
         img = self._make_ready_image()
         reduced_dimensions = tuple(dim / 2 for dim in img.size)
-        img = img.resize(reduced_dimensions, Image.LANCZOS)
+        img = img.resize(reduced_dimensions, Image.ANTIALIAS)
         file_name = self._create_file_name()
         img.save(os.path.join(self.file_path, file_name), quality=95)
         self._reset_camera()
