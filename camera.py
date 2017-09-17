@@ -6,7 +6,10 @@ import random
 import string
 import time
 
-from picamera import PiCamera
+try:
+    from picamera import PiCamera
+except ImportError:
+    print 'Warning: PiCamera module not available'
 from PIL import Image
 
 import config
