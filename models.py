@@ -8,7 +8,8 @@ $ python ./models.py
 import logging
 import os
 import pickle
-from sklearn import cross_validation, svm
+from sklearn import svm
+from sklearn.cross_validation import cross_val_score
 import config
 import samples
 
@@ -31,10 +32,17 @@ def _get_new_trained_model():
         os.path.join(config.INSTALL_DIR, config.POSITIVE_SAMPLE_DIR),
         os.path.join(config.INSTALL_DIR, config.NEGATIVE_SAMPLE_DIR))
     model = svm.SVC(kernel='linear')
+    _score_model(model, training_samples, training_labels)
     logger.info('Fitting new model')
     model.fit(training_samples, training_labels)
 
     return model
+
+
+def _score_model(model, samples, labels):
+    print 'Scoring model...'
+    scores = cross_val_score(model, samples, labels, cv=5)
+    print 'Model accuracy score: {0:0.2f}'.format(scores.mean())
 
 
 if __name__ == '__main__':
